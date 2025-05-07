@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الخريطة التفاعلية للجامعة الأردنية - البيت الزجاجي</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        #map {
+            height: 600px;
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .header {
+            background-color: #2c786c;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .plant-info {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: none;
+        }
+        .plant-card {
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .plant-card:hover {
+            transform: translateY(-5px);
+        }
+        .plant-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+        .plant-card-body {
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #2c786c;
+            font-weight: 700;
+        }
+        .custom-icon {
+            background-color: #2c786c;
+            border-radius: 50%;
+            border: 3px solid white;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            line-height: 40px;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>الخريطة التفاعلية للجامعة الأردنية</h1>
+            <h2>البيت الزجاجي - كلية الزراعة</h2>
+        </div>
+        
+        <div id="map"></div>
+        
+        <div id="plant-info" class="plant-info">
+            <h3 class="text-center mb-4">🌿 نباتات البيت الزجاجي 🌿</h3>
+            <div class="row">
+                <!-- نبات 1 -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="plant-card">
+                        <img src="https://images.unsplash.com/photo-1598880940080-ff9a29891b80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="نبات الأوركيد">
+                        <div class="plant-card-body">
+                            <h4>الأوركيد</h4>
+                            <p><strong>الاسم العلمي:</strong> Orchidaceae</p>
+                            <p><strong>الوصف:</strong> نبات زهري استوائي معروف بأزهاره الجميلة وتنوع ألوانه، يحتاج إلى رطوبة عالية.</p>
+                            <p><strong>الاستخدامات:</strong> للزينة، يستخدم في صناعة العطور والطب التقليدي.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- نبات 2 -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="plant-card">
+                        <img src="https://images.unsplash.com/photo-1552904211-c0f21a7f5e2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="الصبار">
+                        <div class="plant-card-body">
+                            <h4>الصبار</h4>
+                            <p><strong>الاسم العلمي:</strong> Aloe vera</p>
+                            <p><strong>الوصف:</strong> نبات عصاري يخزن الماء في أوراقه السميكة، ينمو في المناطق الجافة.</p>
+                            <p><strong>الاستخدامات:</strong> علاج الحروق، العناية بالبشرة، تنقية الهواء.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- نبات 3 -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="plant-card">
+                        <img src="https://images.unsplash.com/photo-1597848212624-a19eb35e2651?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="اللافندر">
+                        <div class="plant-card-body">
+                            <h4>اللافندر</h4>
+                            <p><strong>الاسم العلمي:</strong> Lavandula</p>
+                            <p><strong>الوصف:</strong> نبات عطري بأزهار بنفسجية جميلة، موطنه منطقة البحر المتوسط.</p>
+                            <p><strong>الاستخدامات:</strong> العطور، العلاج بالروائح، طارد للحشرات.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- نبات 4 -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="plant-card">
+                        <img src="https://images.unsplash.com/photo-1600411832986-d529b4c56d14?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="البونساي">
+                        <div class="plant-card-body">
+                            <h4>البونساي</h4>
+                            <p><strong>الاسم العلمي:</strong> -</p>
+                            <p><strong>الوصف:</strong> فن ياباني قديم لزراعة الأشجار المصغرة في أوعية.</p>
+                            <p><strong>الاستخدامات:</strong> فن الزينة، التأمل، هواية تتطلب الصبر.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2023 الجامعة الأردنية - كلية الزراعة | جميع الحقوق محفوظة</p>
+        </div>
+    </div>
+
+    <script>
+        // الإحداثيات الدقيقة للبيت الزجاجي في الجامعة الأردنية
+        const greenhouseLocation = [32.01355530750415, 35.87342464453552];
+        
+        // تهيئة الخريطة مع زوم أقرب
+        const map = L.map('map').setView(greenhouseLocation, 18);
+        
+        // إضافة طبقة الخريطة الأساسية
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 20
+        }).addTo(map);
+        
+        // إنشاء أيقونة مخصصة أكبر
+        const customIcon = L.divIcon({
+            className: 'custom-icon',
+            html: '🌱',
+            iconSize: [40, 40],
+            popupAnchor: [0, -20]
+        });
+        
+        // إضافة علامة للبيت الزجاجي مع popup
+        const greenhouseMarker = L.marker(greenhouseLocation, {
+            icon: customIcon,
+            title: "البيت الزجاجي",
+            alt: "البيت الزجاجي - كلية الزراعة"
+        }).addTo(map)
+          .bindPopup("<b>البيت الزجاجي</b><br>كلية الزراعة - الجامعة الأردنية");
+        
+        // إضافة دائرة حول الموقع لتوضيحه
+        L.circle(greenhouseLocation, {
+            color: '#2c786c',
+            fillColor: '#2c786c',
+            fillOpacity: 0.2,
+            radius: 30
+        }).addTo(map);
+        
+        // عند النقر على العلامة
+        greenhouseMarker.on('click', function() {
+            const plantInfo = document.getElementById('plant-info');
+            plantInfo.style.display = plantInfo.style.display === 'none' ? 'block' : 'none';
+            
+            if (plantInfo.style.display === 'block') {
+                plantInfo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+        
+        // إضافة عناصر تحكم للخريطة
+        L.control.zoom({ position: 'topright' }).addTo(map);
+        L.control.scale({ position: 'bottomright' }).addTo(map);
+        
+        // إضافة زر للعودة إلى الموقع
+        const customControl = L.Control.extend({
+            options: { position: 'topleft' },
+            onAdd: function() {
+                const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+                const button = L.DomUtil.create('a', '', container);
+                button.innerHTML = '🏠';
+                button.href = '#';
+                button.title = 'العودة إلى البيت الزجاجي';
+                button.style.fontSize = '20px';
+                button.style.lineHeight = '30px';
+                button.style.width = '30px';
+                button.style.height = '30px';
+                button.style.textAlign = 'center';
+                button.style.display = 'block';
+                
+                L.DomEvent.on(button, 'click', function(e) {
+                    e.preventDefault();
+                    map.setView(greenhouseLocation, 18);
+                });
+                
+                return container;
+            }
+        });
+        map.addControl(new customControl());
+    </script>
+</body>
+</html>
